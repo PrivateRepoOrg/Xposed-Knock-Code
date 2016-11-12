@@ -5,14 +5,15 @@
     <string name="main_retry">Coba lagi</string>
     <string name="main_next">Selanjutnya</string>
     <string name="main_select_grid_size">Pilih ukuran grid anda</string>
-    <string name="main_shortcuts_will_delete">Setelah kode diganti, semua jalan pintas akan dihapus</string>
+    <string name="main_shortcuts_will_delete">Setelah kode diganti, semua jalan pintas yang ada akan dihapus</string>
     <string name="main_too_many_taps">Terlalu banyak sentuhan, menyetel ulang!</string>
     <string name="main_conflict_shortcut">Kode ini bertentangan dengan %1$s, menyetel ulang!</string>
 
     <string name="about_disclaimer_title">Sangkalan</string>
     <string name="about_disclaimer_message" translatable="false">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE</string>
     <string name="about_translators">Penerjemah</string>
-    <string name="about_translator_indonesian">andrianeko (Indonesian)</string>
+    <string name="about_translator_polish_pantin">pantinPL (Polish)</string>
+    <string name="about_translator_russian_julia">Ms_Julia (Russian)</string>
 
     <string name="custom_shortcuts">Jalan pintas kustom</string>
     <string name="custom_shortcuts_add">Tambah</string>
@@ -29,8 +30,8 @@
     <string name="knock_code_enabling">Perangkat dinonaktifkan, coba lagi setelah %1$d detik</string>
     <string name="knock_code_longpress_cleared">Lama ditekan, pola dibersihkan!</string>
     <string name="knock_code_confirm_shortcut">Konfirmasi %1$s</string>
-    <string name="knock_no_match">Kode tidak cocok</string>
-    <string name="knock_match">Kode cocok, sukses!</string>
+    <string name="knock_no_match">Kode tidak sesuai</string>
+    <string name="knock_match">Kode sesuai, sukses!</string>
 
     <string name="shortcut_helper_apps">Aplikasi</string>
     <string name="shortcut_helper_activities">Aktivitas</string>
@@ -155,4 +156,8 @@
     <string name="settings_vibrate_tap">Bergetar saat disentuh</string>
     <string name="settings_vibrate_long_press">Bergetar saat sentuhan panjang</string>
     <string name="settings_vibrate_error">Bergetar saat terjadi kesalahan</string>
+    <string name="settings_appear_anim">Animasi saat muncul</string>
+    <string name="settings_disappear_anim">Animasi saat hilang</string>
+    <string name="about_translator_indonesian_andrian">Andrian Eko (Indonesian)</string>
+    <string name="about_translator_brazillian_victor">VictorxD70 (Brazilian)</string>
 </resources>
