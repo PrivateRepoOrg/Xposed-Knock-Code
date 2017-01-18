@@ -16,8 +16,8 @@ android {
         applicationId "me.rijul.knockcode"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 47
-        versionName "1.4.7 (test)"
+        versionCode 48
+        versionName "1.4.8"
     }
     buildTypes {
         release {

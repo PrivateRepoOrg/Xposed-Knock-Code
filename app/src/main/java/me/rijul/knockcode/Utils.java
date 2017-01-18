@@ -27,7 +27,6 @@ public class Utils {
     public static final String SETTINGS_CHANGE_CODE = "settings_change_code";
     public static final String SETTINGS_CUSTOM_SHORTCUTS = "settings_custom_shortcuts";
     public static final String SETTINGS_CUSTOM_SHORTCUTS_DONT_UNLOCK = "settings_custom_shortcuts_dont_unlock";
-    public static final String SETTINGS_RESTART_KEYGUARD = "settings_restart_keyguard";
     public static final String SETTINGS_HIDE_LAUNCHER = "settings_hide_launcher";
     public static final String SETTINGS_FAILSAFE = "settings_failsafe";
 
@@ -88,7 +87,6 @@ public class Utils {
     public static final String SETTINGS_DISAPPEAR_DURATION = "settings_disappear_duration";
 
     public static final String ABOUT_DISCLAIMER = "about_disclaimer";
-    public static final String ABOUT_RIJUL = "about_rijul";
 
     private static class killPackage extends AsyncTask<String, Void, Void> {
         @Override

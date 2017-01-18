@@ -78,6 +78,7 @@ public class SettingsActivity extends Activity {
         CustomLogger.log(this, "MainActivity", "App", "Opened settings", null, -1);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

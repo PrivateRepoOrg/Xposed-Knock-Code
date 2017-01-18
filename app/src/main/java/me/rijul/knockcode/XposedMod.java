@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ViewFlipper;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -82,12 +81,7 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             return;
-        if (lpparam.packageName.equals("me.rijul.knockcode")) {
-            Class<?> SettingsActivityClazz = XposedHelpers.findClass("me.rijul.knockcode.SettingsActivity", lpparam.classLoader);
-            XposedHelpers.setStaticBooleanField(SettingsActivityClazz, "MODULE_INACTIVE", false);
-            XposedHelpers.findAndHookMethod(SettingsActivityClazz, "getXposedVersionCode",
-                    XC_MethodReplacement.returnConstant(BuildConfig.VERSION_CODE));
-        } else if (lpparam.packageName.equals("com.htc.lockscreen")) {
+        if (lpparam.packageName.equals("com.htc.lockscreen")) {
             Utils.XposedLog("HTC Device");
             createHooksIfNeeded("com.htc.lockscreen.keyguard");
             hookMethods("com.htc.lockscreen.keyguard", lpparam);
@@ -95,6 +89,11 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
             Utils.XposedLog("AOSPish Device");
             createHooksIfNeeded("com.android.keyguard");
             hookMethods("com.android.keyguard", lpparam);
+        } else if (lpparam.packageName.equals("me.rijul.knockcode")) {
+            Class<?> SettingsActivityClazz = XposedHelpers.findClass("me.rijul.knockcode.SettingsActivity", lpparam.classLoader);
+            XposedHelpers.setStaticBooleanField(SettingsActivityClazz, "MODULE_INACTIVE", false);
+            XposedHelpers.findAndHookMethod(SettingsActivityClazz, "getXposedVersionCode",
+                    XC_MethodReplacement.returnConstant(BuildConfig.VERSION_CODE));
         }
     }
 
@@ -232,6 +231,7 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
                 Context mContext = ((FrameLayout) param.thisObject).getContext();
                 mContext.registerReceiver(broadcastReceiver, new IntentFilter(Utils.SETTINGS_CHANGED));
                 if ((mSettingsHelper==null) || (mSettingsHelper.isDisabled())) {
+                    Utils.XposedLog("Either switch is off, or the constructor isn't initialized!");
                     //find whichever view is enabled
                     View pinView = (View) callMethod(param.thisObject, "getSecurityView", param.args[0]);
                     ViewGroup.LayoutParams layoutParams = pinView.getLayoutParams();
@@ -248,7 +248,10 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
                 Object pinMode = XposedHelpers.getStaticObjectField(SecurityMode, "PIN");
                 if (!pinMode.equals(securityMode)) {
                     //find whichever view is enabled
+                    Utils.XposedLog("PIN from stock settings isn't enabled; no support");
                     View pinView = (View) callMethod(param.thisObject, "getSecurityView", param.args[0]);
+                    if (pinView==null) //none or swipe or whatever
+                        return;
                     ViewGroup.LayoutParams layoutParams = pinView.getLayoutParams();
                     //set width and height
                     layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, mContext.getResources().getDisplayMetrics());

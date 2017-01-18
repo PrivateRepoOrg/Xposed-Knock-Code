@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LockButtonView extends LinearLayout implements View.OnLongClickListener, View.OnTouchListener {
