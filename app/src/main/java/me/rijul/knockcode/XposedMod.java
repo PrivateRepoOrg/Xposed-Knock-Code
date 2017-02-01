@@ -57,6 +57,7 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
         }
     };
     private XC_MethodHook mShowPrimarySecurityScreenHook;
+    private boolean isHTC = false;
 
     public enum UnlockPolicy { NEVER, ALWAYS, NO_CLEARABLE_NOTIF, NO_NOTIF };
 
@@ -82,14 +83,30 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             return;
         if (lpparam.packageName.equals("com.htc.lockscreen")) {
+            isHTC = true;
             Utils.XposedLog("HTC Device");
+            Utils.XposedLog("Version " + BuildConfig.VERSION_NAME);
             createHooksIfNeeded("com.htc.lockscreen.keyguard");
             hookMethods("com.htc.lockscreen.keyguard", lpparam);
-        } else if ((lpparam.packageName.contains("android.keyguard")) || (lpparam.packageName.contains("com.android.systemui"))) {
-            Utils.XposedLog("AOSPish Device");
-            createHooksIfNeeded("com.android.keyguard");
-            hookMethods("com.android.keyguard", lpparam);
-        } else if (lpparam.packageName.equals("me.rijul.knockcode")) {
+        }
+
+        if ((lpparam.packageName.contains("android.keyguard")) || (lpparam.packageName.contains("com.android.systemui"))) {
+            if (!isHTC) {
+                Utils.XposedLog("AOSPish Device");
+                Utils.XposedLog("Version " + BuildConfig.VERSION_NAME);
+                createHooksIfNeeded("com.android.keyguard");
+                hookMethods("com.android.keyguard", lpparam);
+            } else {
+                try {
+                    Class<?> keyguardViewManager = XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager",
+                            lpparam.classLoader);
+                    XposedBridge.hookAllMethods(keyguardViewManager, "onScreenTurnedOn", mOnScreenTurnedOnHook);
+                    XposedBridge.hookAllMethods(keyguardViewManager, "onScreenTurnedOff", mOnScreenTurnedOffHook);
+                } catch (NoSuchMethodError | XposedHelpers.ClassNotFoundError ignored) {}
+            }
+        }
+
+        if (lpparam.packageName.equals("me.rijul.knockcode")) {
             Class<?> SettingsActivityClazz = XposedHelpers.findClass("me.rijul.knockcode.SettingsActivity", lpparam.classLoader);
             XposedHelpers.setStaticBooleanField(SettingsActivityClazz, "MODULE_INACTIVE", false);
             XposedHelpers.findAndHookMethod(SettingsActivityClazz, "getXposedVersionCode",
@@ -126,7 +143,7 @@ public class XposedMod implements IXposedHookLoadPackage, IXposedHookZygoteInit,
                     lpparam.classLoader);
             XposedBridge.hookAllMethods(keyguardViewManager, "onScreenTurnedOn", mOnScreenTurnedOnHook);
             XposedBridge.hookAllMethods(keyguardViewManager, "onScreenTurnedOff", mOnScreenTurnedOffHook);
-        } catch (NoSuchMethodError ignored) {}
+        } catch (NoSuchMethodError | XposedHelpers.ClassNotFoundError ignored) {}
 
         /*
         XposedHelpers.findAndHookMethod("com.android.keyguard.KeyguardStatusView", lpparam.classLoader, "onFinishInflate", new XC_MethodHook() {

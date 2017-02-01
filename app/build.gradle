@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 49
-        versionName "1.4.9 test-fix-lp"
+        versionName "1.4.9 test-fix-htc"
     }
     buildTypes {
         release {
