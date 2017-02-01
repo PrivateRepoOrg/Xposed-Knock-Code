@@ -441,7 +441,7 @@ public class KeyguardKnockView extends LinearLayout implements LockButtonView.On
             } else if (mTappedPositions.size()==mPasscode.size()) {
                 if (mTappedPositions.equals(mPasscode)) {
                     CustomLogger.log(getContext(), "Lockscreen", "Success", "Unlocked", "Launched nothing", -1);
-                    XposedHelpers.callMethod(mLockPatternUtils, "reportSuccessfulPasswordAttempt", (int) XposedHelpers.callMethod(mKeyguardUpdateMonitor, "getCurrentUser"));
+                    callTrue();
                     mLockButtonView.enableButtons(false);
                     if (mSettingsHelper.showCorrectText())
                         mTextView.setText(mSettingsHelper.getCorrectText());
@@ -468,6 +468,16 @@ public class KeyguardKnockView extends LinearLayout implements LockButtonView.On
                 else
                     callFalse();
             }
+        }
+    }
+
+    private void callTrue() {
+        XposedHelpers.callMethod(mKeyguardUpdateMonitor, "clearFailedUnlockAttempts");
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            XposedHelpers.callMethod(mLockPatternUtils, "reportSuccessfulPasswordAttempt", (int) XposedHelpers.callMethod(mKeyguardUpdateMonitor, "getCurrentUser"));
+        }
+        else {
+            XposedHelpers.callMethod(mLockPatternUtils, "reportSuccessfulPasswordAttempt");
         }
     }
 
